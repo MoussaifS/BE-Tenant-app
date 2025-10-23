@@ -4,6 +4,7 @@ const fs = require('fs-extra');
 const path = require('path');
 const mime = require('mime-types');
 const { categories, authors, articles, global, about } = require('../data/data.json');
+const { extractUnitsFromExcel } = require('./extract-units');
 
 async function seedExampleApp() {
   const shouldImportSeedData = await isFirstRun();
@@ -236,6 +237,41 @@ async function importAuthors() {
   }
 }
 
+async function importUnits() {
+  console.log('Extracting units from Excel file...');
+  const units = extractUnitsFromExcel();
+  
+  console.log(`Found ${units.length} units to import`);
+  
+  let importedCount = 0;
+  let skippedCount = 0;
+  
+  for (const unit of units) {
+    try {
+      // Check if unit already exists
+      const existingUnit = await strapi.documents('api::unit.unit').findOne({
+        where: { Reference: unit.Reference }
+      });
+      
+      if (existingUnit) {
+        console.log(`Skipping unit ${unit.Reference} - already exists`);
+        skippedCount++;
+        continue;
+      }
+      
+      await createEntry({
+        model: 'unit',
+        entry: unit,
+      });
+      importedCount++;
+    } catch (error) {
+      console.log(`Error importing unit ${unit.Reference}:`, error.message);
+    }
+  }
+  
+  console.log(`Units import completed: ${importedCount} imported, ${skippedCount} skipped`);
+}
+
 async function importSeedData() {
   // Allow read of application content types
   await setPublicPermissions({
@@ -244,6 +280,7 @@ async function importSeedData() {
     author: ['find', 'findOne'],
     global: ['find', 'findOne'],
     about: ['find', 'findOne'],
+    unit: ['find', 'findOne'],
   });
 
   // Create all entries
@@ -252,6 +289,7 @@ async function importSeedData() {
   await importArticles();
   await importGlobal();
   await importAbout();
+  await importUnits();
 }
 
 async function main() {

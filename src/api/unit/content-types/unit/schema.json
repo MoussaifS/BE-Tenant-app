@@ -1,0 +1,44 @@
+{
+  "kind": "collectionType",
+  "collectionName": "units",
+  "info": {
+    "singularName": "unit",
+    "pluralName": "units",
+    "displayName": "Units"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Reference": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "Development": {
+      "type": "string"
+    },
+    "Units": {
+      "type": "string"
+    },
+    "Number_of_bedrooms": {
+      "type": "string"
+    },
+    "Neighborhood": {
+      "type": "string"
+    },
+    "Tourism_License": {
+      "type": "string"
+    },
+    "Parking": {
+      "type": "string"
+    },
+    "Floor": {
+      "type": "string"
+    },
+    "Location": {
+      "type": "string"
+    }
+  }
+}

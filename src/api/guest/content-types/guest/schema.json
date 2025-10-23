@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "guests",
+  "info": {
+    "singularName": "guest",
+    "pluralName": "guests",
+    "displayName": "Guest"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Booking_Reference_Number": {
+      "type": "string",
+      "required": true
+    },
+    "first_signup": {
+      "type": "datetime"
+    },
+    "last_signin": {
+      "type": "datetime"
+    },
+    "signin_count": {
+      "type": "integer",
+      "default": 0
+    },
+    "jwt_token": {
+      "type": "text"
+    },
+    "token_expires_at": {
+      "type": "datetime"
+    }
+  }
+}
