@@ -1,0 +1,75 @@
+{
+  "kind": "collectionType",
+  "collectionName": "requests",
+  "info": {
+    "singularName": "request",
+    "pluralName": "requests",
+    "displayName": "Request"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Phone_Number": {
+      "type": "string"
+    },
+    "date": {
+      "type": "datetime"
+    },
+    "type": {
+      "type": "enumeration",
+      "required": true,
+      "enum": [
+        "extending",
+        "cleaning",
+        "maintenance"
+      ]
+    },
+    "details": {
+      "type": "string"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "Reference_Number": {
+      "type": "biginteger",
+      "required": true
+    },
+    "requesttype": {
+      "type": "string"
+    },
+    "requestcategory": {
+      "type": "string"
+    },
+    "datechekout": {
+      "type": "string"
+    },
+    "datechekin": {
+      "type": "string"
+    },
+    "roomnumber": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "note": {
+      "type": "text"
+    },
+    "arqaam_sent": {
+      "type": "boolean",
+      "default": false
+    },
+    "arqaam_response": {
+      "type": "json"
+    }
+  }
+}

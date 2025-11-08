@@ -7,15 +7,17 @@
 const jwt = require('jsonwebtoken');
 
 module.exports = {
-  async authenticate(req, res) {
+  async authenticate(ctx) {
     try {
-      const { bookingReference } = req.body;
+      const { bookingReference } = ctx.request.body;
 
       if (!bookingReference) {
-        return res.status(400).json({
+        ctx.status = 400;
+        ctx.body = {
           error: 'Booking reference is required',
           code: 'MISSING_REFERENCE'
-        });
+        };
+        return;
       }
 
       // Find booking by reference number
@@ -27,10 +29,12 @@ module.exports = {
       });
 
       if (!booking || booking.length === 0) {
-        return res.status(404).json({
+        ctx.status = 404;
+        ctx.body = {
           error: 'Invalid booking reference. Please check your booking confirmation.',
           code: 'INVALID_REFERENCE'
-        });
+        };
+        return;
       }
 
       const bookingData = booking[0];
@@ -38,29 +42,33 @@ module.exports = {
       const arrivalDate = new Date(bookingData.Arrival);
       const departureDate = new Date(bookingData.Departure);
 
-      // Set specific times: 3:45 PM for arrival, 12:00 PM for departure
+      // Set specific times: 3:45 PM for arrival, 12:30 PM for departure
       const arrivalTime = new Date(arrivalDate);
       arrivalTime.setHours(15, 45, 0, 0); // 3:45 PM
 
       const departureTime = new Date(departureDate);
-      departureTime.setHours(12, 0, 0, 0); // 12:00 PM
+      departureTime.setHours(12, 30, 0, 0); // 12:30 PM
 
       // Check if too early (before arrival at 3:45 PM)
       if (now < arrivalTime) {
-        return res.status(403).json({
+        ctx.status = 403;
+        ctx.body = {
           error: `Your access begins on ${arrivalDate.toLocaleDateString()} at 3:45 PM. Please check in after this time.`,
           code: 'TOO_EARLY',
           arrivalTime: arrivalTime.toISOString()
-        });
+        };
+        return;
       }
 
       // Check if too late (after departure at 12:00 PM)
       if (now > departureTime) {
-        return res.status(403).json({
+        ctx.status = 403;
+        ctx.body = {
           error: 'Your booking period has ended. If you need assistance, please contact support.',
           code: 'TOO_LATE',
           departureTime: departureTime.toISOString()
-        });
+        };
+        return;
       }
 
       // Generate JWT token with expiration set to departure time
@@ -105,7 +113,8 @@ module.exports = {
       }
 
       // Return success response
-      return res.status(200).json({
+      ctx.status = 200;
+      ctx.body = {
         success: true,
         message: `Welcome! You're successfully signed in. Access valid until ${departureDate.toLocaleDateString()} at 12:00 PM.`,
         token,
@@ -116,14 +125,15 @@ module.exports = {
           accommodation: bookingData.Accommodation
         },
         accessValidUntil: departureTime.toISOString()
-      });
+      };
 
     } catch (error) {
       console.error('Authentication error:', error);
-      return res.status(500).json({
+      ctx.status = 500;
+      ctx.body = {
         error: 'An error occurred during authentication. Please try again.',
         code: 'SERVER_ERROR'
-      });
+      };
     }
   }
 };
