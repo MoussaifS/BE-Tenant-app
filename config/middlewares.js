@@ -1,41 +1,30 @@
-module.exports = [
-  'strapi::logger',
-  'strapi::errors',
+export default [
+  "strapi::errors",
   {
-    name: 'strapi::security',
+    name: "strapi::security",
     config: {
       contentSecurityPolicy: {
         useDefaults: true,
         directives: {
-          'connect-src': ["'self'", 'https:'],
-          'img-src': ["'self'", 'data:', 'blob:', 'storage.googleapis.com'],
-          'media-src': ["'self'", 'data:', 'blob:', 'storage.googleapis.com'],
+          "connect-src": ["'self'", "https:"],
+          "img-src": [
+            "'self'",
+            "data:",
+            "blob:",
+            "https://storage.googleapis.com",
+          ],
+          "media-src": ["'self'", "data:", "blob:", "storage.googleapis.com"],
           upgradeInsecureRequests: null,
         },
       },
     },
   },
-  {
-    name: 'strapi::cors',
-    config: {
-      origin: ['https://guest-nuzul.co', 'https://www.guest-nuzul.co', 'http://localhost:3000'],
-      credentials: true,
-    },
-  },
-  'strapi::poweredBy',
-  'strapi::query',
-  'strapi::body',
-  {
-    name: 'strapi::session',
-    config: {
-      cookie: {
-        secure: true,
-        httpOnly: true,
-        sameSite: 'lax',
-      },
-    },
-  },
-  'strapi::favicon',
-  'strapi::public',
+  "strapi::cors",
+  "strapi::poweredBy",
+  "strapi::logger",
+  "strapi::query",
+  "strapi::body",
+  "strapi::session",
+  "strapi::favicon",
+  "strapi::public",
 ];
-
