@@ -27,7 +27,16 @@ module.exports = [
   'strapi::query',
   'strapi::body',
   'proxy-protocol',
-  'strapi::session',
+  {
+    name: 'strapi::session',
+    config: {
+      cookie: {
+        secure: true,
+        httpOnly: true,
+        sameSite: 'lax',
+      },
+    },
+  },
   'strapi::favicon',
   'strapi::public',
 ];
