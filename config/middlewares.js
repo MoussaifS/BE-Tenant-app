@@ -4,6 +4,7 @@ module.exports = [
   {
     name: 'strapi::security',
     config: {
+      trustProxy: true,
       contentSecurityPolicy: {
         useDefaults: true,
         directives: {
@@ -25,6 +26,7 @@ module.exports = [
   'strapi::poweredBy',
   'strapi::query',
   'strapi::body',
+  'proxy-protocol',
   {
     name: 'strapi::session',
     config: {
@@ -38,3 +40,4 @@ module.exports = [
   'strapi::favicon',
   'strapi::public',
 ];
+
