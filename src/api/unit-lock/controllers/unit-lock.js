@@ -30,7 +30,7 @@ module.exports = {
       }
 
       const token = authHeader.replace('Bearer ', '');
-      const jwtSecret = 'tobemodified';
+      const jwtSecret = process.env.JWT_SECRET || 'your-secret-key';
 
       // Verify and decode JWT token
       let decoded;
@@ -214,7 +214,7 @@ module.exports = {
       }
 
       const token = authHeader.replace('Bearer ', '');
-      const jwtSecret = "2025@Nuzul";
+      const jwtSecret = process.env.JWT_SECRET || 'your-secret-key';
 
       // Verify and decode JWT token
       let decoded;
