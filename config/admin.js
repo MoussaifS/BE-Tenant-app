@@ -17,4 +17,12 @@ module.exports = ({ env }) => ({
     nps: env.bool('FLAG_NPS', true),
     promoteEE: env.bool('FLAG_PROMOTE_EE', true),
   },
+  vite: {
+    server: {
+      host: true,
+      strictPort: false,
+      allowedHosts: ['guest-nuzul.co', 'www.guest-nuzul.co', 'localhost'],
+    },
+  },
+  serveAdminPanel: true,
 });
